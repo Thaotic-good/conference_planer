@@ -21,11 +21,10 @@ class EventEntity(
     @Column(name = "event_id", updatable = false, nullable = false)
     var event_id: UUID? = null,
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    var name: ConferenceDay,
+    @Column(name = "name", nullable = false)
+    var name: String? = null,
 
-    @Column(nullable = false)
+    @Column(name = "venue_name", nullable = false)
     var venue_name: String,
 
     @Column(name = "starts_at", insertable = false, updatable = false, nullable = false)
@@ -53,12 +52,6 @@ enum class Status {
     DRAFT,
     REVIEW,
     CONFIRMED,
-}
-
-enum class ConferenceDay {
-    FRIDAY,
-    SATURDAY,
-    SUNDAY,
 }
 
 interface EventRepository : JpaRepository<EventRepository, UUID>

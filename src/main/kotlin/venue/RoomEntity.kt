@@ -1,15 +1,18 @@
 package org.example.venue
 
+import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
+import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import org.example.event.EventEntity
 import org.example.program.ProgramSessionEntity
 import java.util.UUID
 
@@ -17,13 +20,9 @@ import java.util.UUID
 @Table(name = "rooms")
 class RoomEntity(
     @Id
-    @GeneratedValue
-    @Column(name = "room_id", updatable = false, nullable = false)
-    var room_id: UUID? = null,
-
-    // 'mappedBy' points to the 'session' field in ProgramSessionEntity (does NOT create a new FK column)
-    @OneToMany(mappedBy = "program_sessions", fetch = FetchType.LAZY)
-    val program_sessions: MutableList<ProgramSessionEntity> = mutableListOf(),
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", updatable = false, nullable = false)
+    var id: UUID? = null,
 
     @Column(name = "name", nullable = false, unique = true)
     var name: String,
@@ -31,19 +30,33 @@ class RoomEntity(
     @Column(name = "capacity", nullable = false)
     var capacity: Int? = null,
 
+    // 'mappedBy' points to the 'session' field in ProgramSessionEntity (does NOT create a new FK column)
+    @OneToMany(mappedBy = "program_sessions", fetch = FetchType.LAZY)
+    val program_sessions: MutableList<ProgramSessionEntity> = mutableListOf(),
+
     @Column(name = "location_notes", nullable = true)
     var location_notes: String? = null,
 
-    @Column(name = "accessible", nullable = true)
-    var accessible: Boolean? = null,
-
-    @Column(name = "available", nullable = false)
-    var available: String? = null,
-
-    // maybe add room_capability:
-    // projector
-    //handheld_microphone
-    //livestreaming
-    //workshop_tables
-
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+        name = "room_equipment",
+        joinColumns = [JoinColumn(name = "room_id")]
     )
+    @Column(name = "equipment")
+    @Enumerated(EnumType.STRING)
+    val equipment: MutableSet<EquipmentType> = mutableSetOf(),
+
+    @Column(name = "available_from", insertable = false, updatable = false, nullable = false)
+    var available_from: java.time.Instant,
+
+    @Column(name = "available_to", insertable = false, updatable = false, nullable = false)
+    var available_to: java.time.Instant,
+    )
+
+enum class EquipmentType {
+    PROJECTOR,
+    MICROPHONE,
+    LIVESTREAMING,
+    WORKSHOP_TABLES,
+    WHEELCHAIR_ACCESS,
+}

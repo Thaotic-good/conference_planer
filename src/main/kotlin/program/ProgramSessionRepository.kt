@@ -14,7 +14,9 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.example.event.EventEntity
+import org.example.people.EventParticipantEntity
 import org.example.venue.EquipmentType
+import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 @Entity
@@ -25,12 +27,15 @@ class ProgramSessionEntity(
     @Column(name = "id", updatable = false, nullable = false)
     var id: UUID? = null,
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    var session_type: SessionType? = null,
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    var session_type: SessionType? = null,
 
     @Column(nullable = false)
     var title: String,
+
+    @Column(nullable = false)
+    var format: String,
 
     @Column(nullable = false)
     var description: String? = null,
@@ -78,15 +83,29 @@ class ProgramSessionEntity(
     var updated_at: java.time.Instant,
 )
 
-enum class SessionType {
-    PANEL,
-    PRESENTATION,
-    WORKSHOP,
-}
+//enum class SessionType {
+//    PANEL_DISCUSSION,
+//    PRESENTATION,
+//    WORKSHOP,
+//    CULTURE_PROGRAMME,
+//    BREAK,
+//}
 
 enum class Status {
     DRAFT,
     CONFIRMED,
     DONE,
     CANCELED
+}
+
+interface ProgramSessionRepository : JpaRepository<ProgramSessionEntity, UUID> {
+
+    fun findAllByEventId(
+        eventId: UUID
+    ): List<EventParticipantEntity>
+
+    fun findByEventIdAndRoomId(
+        eventId: UUID,
+        roomId: UUID
+    ): List<EventParticipantEntity>
 }

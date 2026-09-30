@@ -1,7 +1,5 @@
 package org.example.people
 
-package org.example.people
-
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -15,11 +13,11 @@ import jakarta.validation.constraints.NotBlank
 import java.util.UUID
 
 @Entity
-@Table
+@Table(name = "people")
 class PersonEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "person_id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     var id: UUID? = null,
 
     @field:NotBlank // application-level validation: Jakarta Bean Validation via @field:Email
@@ -31,11 +29,14 @@ class PersonEntity(
     var display_name: String,
 
     @Column(nullable = false)
-    var phone: Int?= null,
+    var phone: String?= null,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var authentication_status: AuthStatus,
+
+    @Column(name= "event_participation", nullable = false)
+    var event_participation: MutableList<EventParticipantEntity> = mutableListOf(),
 
     @Column(nullable = false, insertable = false, updatable = false)
     var created_at: java.time.Instant

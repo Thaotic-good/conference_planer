@@ -1,2 +1,14 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kotlin_learning
+    username: kotlin_user
+    password: kotlin_password
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    default-schema: public
+    validate-migration-naming: true

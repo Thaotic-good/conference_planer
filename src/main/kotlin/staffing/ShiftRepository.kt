@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.example.people.EventParticipantEntity
+import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 @Entity
@@ -102,7 +103,7 @@ class ShiftSlotEntity(
 enum class AcceptanceStatus {
     UNSTAFFED,
     FILLED,
-    HALFFILLED
+    HALF_FILLED
 }
 
 @Entity
@@ -115,7 +116,7 @@ class ShiftAssigmentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id", nullable = false)
-    var assignee_id: EventParticipantEntity? = null,
+    var assignee_id: TeamMembershipEntity? = null,
 
     @OneToOne(mappedBy = "shift_assignment")
     var shiftSlot: ShiftSlotEntity,
@@ -128,7 +129,48 @@ class ShiftAssigmentEntity(
 enum class AssigmentCompletionStatus {
     OFFERED,
     ACCEPTED,
-    DECLINED,
-    NOSHOW,
+//    DECLINED,
+    NO_SHOW,
     COMPLETED,
+}
+
+interface ShiftRepository : JpaRepository<ShiftEntity, UUID> {
+
+    fun findAllByEventId(
+        eventId: UUID
+    ): List<ShiftEntity>
+
+    fun findAllByTeamId(
+        teamId: UUID
+    ): List<ShiftEntity>
+
+    fun findAllByStatus(
+        completion_status: ShiftCompletionStatus
+    ): List<ShiftEntity>
+}
+
+interface ShiftSlotRepository : JpaRepository<ShiftSlotEntity, UUID> {
+    fun findAllBySessionId(
+        sessionId: UUID
+    ): List<ShiftSlotEntity>
+
+    fun findByShiftAcceptanceStatus(
+        acceptance_status: AcceptanceStatus
+    ): List<ShiftSlotEntity>
+}
+
+interface ShiftAssigmentRepository : JpaRepository<ShiftAssigmentEntity, UUID> {
+
+    fun findAllBySessionIdAndEventId(
+        sessionId: UUID,
+        eventId: UUID
+    ): List<ShiftAssigmentEntity>
+
+    fun findByAssigneeId(
+        assigneeId: UUID,
+    ): TeamMembershipEntity
+
+    fun findByCompletionStatus(
+        completionStatus: ShiftCompletionStatus
+    ): List<ShiftAssigmentEntity>
 }
