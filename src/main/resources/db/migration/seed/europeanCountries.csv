@@ -44,3 +44,58 @@ Switzerland,CH,CHE,FALSE,9007798
 Ukraine,UA,UKR,FALSE,39535849
 United Kingdom,GB,GBR,FALSE,69931528
 Vatican City,VA,VAT,FALSE,800
+
+
+
+
+INSERT INTO country (name, country_code, eu_member, population)
+VALUES
+    ('Albania','AL',FALSE,2751025),
+    ('Andorra','AD',FALSE,78000),
+    ('Austria','AT',TRUE,9107266),
+    ('Belarus','BY',FALSE,8937018),
+    ('Belgium','BE',TRUE,11774642),
+    ('Bosnia and Herzegovina','BA',FALSE,3114242),
+    ('Bulgaria','BG',TRUE,6667659),
+    ('Croatia','HR',TRUE,3822345),
+    ('Cyprus','CY',TRUE,983000),
+    ('Czechia','CZ',TRUE,10527781),
+    ('Denmark','DK',TRUE,6023520),
+    ('Estonia','EE',TRUE,1331062),
+    ('Finland','FI',TRUE,5621739),
+    ('France','FR',TRUE,66746401),
+    ('Germany','DE',TRUE,83644258),
+    ('Greece','GR',TRUE,9897115),
+    ('Hungary','HU',TRUE,9585818),
+    ('Iceland','IS',FALSE,402329),
+    ('Ireland','IE',TRUE,5356950),
+    ('Italy','IT',TRUE,58926166),
+    ('Latvia','LV',TRUE,1835935),
+    ('Liechtenstein','LI',FALSE,39000),
+    ('Lithuania','LT',TRUE,2797338),
+    ('Luxembourg','LU',TRUE,687448),
+    ('Malta','MT',TRUE,549011),
+    ('Moldova','MD',FALSE,2961253),
+    ('Monaco','MC',FALSE,39000),
+    ('Montenegro','ME',FALSE,626233),
+    ('Netherlands','NL',TRUE,18448775),
+    ('North Macedonia','MK',FALSE,1804063),
+    ('Norway','NO',FALSE,5652989),
+    ('Poland','PL',TRUE,37843188),
+    ('Portugal','PT',TRUE,10395362),
+    ('Romania','RO',TRUE,18800605),
+    ('Russia','RU',FALSE,143394458),
+    ('San Marino','SM',FALSE,34000),
+    ('Serbia','RS',FALSE,6641964),
+    ('Slovakia','SK',TRUE,5451342),
+    ('Slovenia','SI',TRUE,2114573),
+    ('Spain','ES',TRUE,47850793),
+    ('Sweden','SE',TRUE,10701047),
+    ('Switzerland','CH',FALSE,9007798),
+    ('Ukraine','UA',FALSE,39535849),
+    ('United Kingdom','GB',FALSE,69931528),
+    ('Vatican City','VA',FALSE,800)
+ON CONFLICT (country_code) DO UPDATE SET
+    name = EXCLUDED.name,
+    population = EXCLUDED.population,
+    eu_member = EXCLUDED.eu_member;
