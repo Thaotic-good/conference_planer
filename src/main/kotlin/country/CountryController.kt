@@ -5,15 +5,18 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CountryController(
-    val countryService: CountryService,
+    private val countryService: CountryService,
 ) {
-    @GetMapping("/country")
-    fun getAllCountries(): List<CountryDto> = countryService.findAll().map { it.toDto() }
+    @GetMapping("/countries")
+    fun getAllCountries(): List<CountryDto> = countryService.findAll().map(Country::toDto)
 }
 
 data class CountryDto(
     val countryCode: String,
     val name: String,
-    val population: Int,
-    val euMember: Boolean,
+)
+
+private fun Country.toDto(): CountryDto = CountryDto(
+    countryCode = countryCode,
+    name = name,
 )

@@ -1,38 +1,43 @@
 package org.example.country
 
 import org.hamcrest.Matchers.hasSize
-import org.mockito.Mockito
+import org.example.event.timezone.TimeZoneCatalog
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import java.time.ZoneId
 import kotlin.test.Test
 
 class CountryControllerTest {
 
     @Test
-    fun `GET country returns countries as JSON`() {
-        val repository = Mockito.mock(CountryRepository::class.java)
-        Mockito.`when`(repository.findAll()).thenReturn(
-            listOf(
-                CountryEntity(
-                    countryCode = "CZ",
-                    name = "Czechia",
-                    population = 10_527_781,
-                    euMember = true,
-                ),
+    fun `GET countries returns supported countries as JSON`() {
+        val controller = CountryController(
+            CountryService(
+                countryCatalog = ControllerCountryCatalog(),
+                timeZoneCatalog = ControllerTimeZoneCatalog(),
             ),
         )
-        val controller = CountryController(CountryService(repository))
         val mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
 
-        mockMvc.get("/country")
+        mockMvc.get("/countries")
             .andExpect {
                 status { isOk() }
                 content { contentType("application/json") }
                 jsonPath("$", hasSize<Any>(1))
                 jsonPath("$[0].countryCode") { value("CZ") }
                 jsonPath("$[0].name") { value("Czechia") }
-                jsonPath("$[0].population") { value(10_527_781) }
-                jsonPath("$[0].euMember") { value(true) }
             }
     }
+}
+
+private class ControllerCountryCatalog : CountryCatalog {
+    override fun findAll(): List<Country> = listOf(Country("CZ", "Czechia"))
+}
+
+private class ControllerTimeZoneCatalog : TimeZoneCatalog {
+    override fun findTimeZoneIds(countryCode: String): List<String> =
+        if (countryCode == "CZ") listOf("Europe/Prague") else emptyList()
+
+    override fun supports(countryCode: String, zoneId: ZoneId): Boolean =
+        zoneId.id in findTimeZoneIds(countryCode)
 }

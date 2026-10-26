@@ -1,26 +1,18 @@
 package org.example.country
 
+import org.example.event.timezone.TimeZoneCatalog
 import org.springframework.stereotype.Service
 
 @Service
 class CountryService(
-    val countryRepository: CountryRepository,
+    private val countryCatalog: CountryCatalog,
+    private val timeZoneCatalog: TimeZoneCatalog,
 ) {
-    fun findAll(): List<CountryDomain> = countryRepository.findAll().map { it.toDomain() }
-}
-
-data class CountryDomain(
-    val countryCode: String,
-    val name: String,
-    val population: Int,
-    val euMember: Boolean,
-) {
-    fun toDto(): CountryDto {
-        return CountryDto(
-            countryCode = countryCode,
-            name = name,
-            population = population,
-            euMember = euMember,
-        )
+    private val supportedCountries: List<Country> by lazy {
+        countryCatalog.findAll()
+            .filter { timeZoneCatalog.findTimeZoneIds(it.countryCode).isNotEmpty() }
+            .sortedWith(compareBy(Country::name, Country::countryCode))
     }
+
+    fun findAll(): List<Country> = supportedCountries
 }
