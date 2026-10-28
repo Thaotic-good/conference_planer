@@ -23,6 +23,34 @@
   make the requested changes. Explain the important lessons in the handoff.
 - Keep each learning milestone compiling before starting another feature.
 
+## Learning continuity and documentation
+
+- `docs/PROJECT_CONTEXT.md` owns verified application behavior, architectural
+  decisions, limitations, and validation status. Check its claims against code.
+- `docs/LEARNING_ROADMAP.md` owns the proposed feature-to-concept progression
+  and session workflow. Read it when choosing or changing an exercise.
+- `docs/LEARNING_LOG.md` owns the single active exercise, learner reflections,
+  assessments, unresolved misconceptions, and the exact next action. Do not
+  duplicate current progress in the other documents.
+- At session start, reconcile the active exercise with code. At meaningful
+  exercise boundaries and session end, update factual progress and the next
+  action. Record pending reflection or assessment explicitly.
+- Give each milestone one primary concept and a manageable learner exercise.
+  Track implementation and understanding separately; passing tests alone does
+  not establish understanding.
+- First-person learning claims must come from the learner. Codex may transcribe
+  or clarify their explanation without strengthening it, but must not invent
+  reflections. Use "Learner reflection pending" when none was supplied.
+- Attribute Codex assessments separately and cite the learner's explanation or
+  application as their basis. Do not infer mastery from existing code.
+- When a misconception appears, identify the mistaken assumption, explain it
+  with current code or a counterexample, then let the learner apply the idea to
+  a small variation. Keep the core concept developing until demonstrated;
+  repeating Codex's wording alone is insufficient.
+- If the learner stops or changes focus, preserve the unresolved concept and
+  next step without marking understanding demonstrated. Avoid quizzing on
+  incidental details or blocking explicitly authorized implementation.
+
 ## Architecture conventions
 
 - Develop one end-to-end use case at a time rather than creating every layer
