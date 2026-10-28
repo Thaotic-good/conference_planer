@@ -2,10 +2,15 @@ plugins {
     kotlin("jvm") version "2.4.10"
     kotlin("plugin.spring") version "2.4.10"
 
-    id("org.springframework.boot") version "4.1.1"
+    id("org.springframework.boot") version "4.1.2"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "2.4.10" // compiler plugin generates non-argument constructors for @Entity classes under the hood (Hibernate require an internal no-arg constructor to instantiate entities via reflection)
 }
+
+// Temporary security overrides.
+// todo: Remove when Spring Boot manages versions containing the relevant fixes.
+extra["jackson-2-bom.version"] = "2.21.8" // com.fasterxml.jackson.*
+extra["jackson-bom.version"] = "3.1.8"    // tools.jackson.*
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
@@ -14,16 +19,23 @@ repositories {
     mavenCentral()
 }
 
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation(kotlin("reflect"))
     implementation("tools.jackson.module:jackson-module-kotlin")
+    implementation("com.ibm.icu:icu4j:78.3") // runtime source for the country + timezone catalog (reference data, not persisted application entities)
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(kotlin("test"))
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter:2.0.5")
+    testImplementation("org.testcontainers:testcontainers-postgresql:2.0.5")
+    mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 
     implementation("org.springframework.boot:spring-boot-starter-flyway") //Flyway starter/driver?
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
@@ -42,4 +54,5 @@ allOpen { // In Kotlin, classes are final by default. JPA requires entity classe
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs.add("-javaagent:${mockitoAgent.asPath}")
 }
