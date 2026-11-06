@@ -12,7 +12,7 @@ class EventEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // Automatically triggers Hibernate's UUID generator
     @Column(name = "id", updatable = false, nullable = false)
-    var id: UUID? = null,
+    var id: UUID? = null, // Kotlin property should normally remain nullable until Hibernate assigns it
 
     @Column(name = "name", nullable = false)
     var name: String,

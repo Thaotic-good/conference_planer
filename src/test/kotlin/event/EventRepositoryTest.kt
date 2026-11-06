@@ -17,7 +17,8 @@ import kotlin.test.assertEquals
 @AutoConfigureTestDatabase(
     replace = AutoConfigureTestDatabase.Replace.NONE // Keep the PostgreSQL datasource supplied by Testcontainers
 ) // PostgreSQL-specific behavior related to TIMESTAMPTZ, UUID, and constraints
-class EventRepositoryTest @Autowired constructor(
+class EventRepositoryTest @Autowired // injects bean to another bean to prevent cyclic dependencies
+    constructor(
     private val eventRepository: EventRepository, // Spring creates the generated repository object and passes it into the test constructor (no source-code implementation exists, Spring builds a proxy at runtime)
 ) {
     @Autowired
