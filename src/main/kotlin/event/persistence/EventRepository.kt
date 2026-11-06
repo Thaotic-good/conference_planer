@@ -41,13 +41,14 @@ class EventEntity(
     @Column(name = "created_at", updatable = false, nullable = false)
     var createdAt: java.time.Instant, // Recommended: Standardizes to UTC in DB (TIMESTAMPTZ in PostgreSQL)
 
+    // fix: this should be optional
     @Column(name = "updated_at", nullable = false)
     var updatedAt: java.time.Instant,
 ) {
     fun toDomain(): EventDomain {
         return EventDomain(
             id = requireNotNull(id) {
-                "A persisted event must have an ID"
+                "A persisted event must have an ID."
             },
             name = name,
             countryCode = countryCode,
@@ -55,7 +56,10 @@ class EventEntity(
             startsAt = startsAt,
             endsAt = endsAt,
             eventStatus = eventStatus,
-//            programSessions = programSessions,
+            // todo: programSessions = programSessions,
+            // todo: rooms = rooms,
+            // todo: teams = teams,
+            // todo: eventParticipant = eventParticipant,
             createdAt = createdAt,
             updatedAt = updatedAt,
         )
