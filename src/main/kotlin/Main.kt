@@ -2,6 +2,8 @@ package org.example
 
 import org.example.event.EventEntity
 import org.example.event.EventRepository
+import org.example.program.ProgramSessionEntity
+import org.example.program.ProgramSessionRepository
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.persistence.autoconfigure.EntityScan
 import org.springframework.boot.runApplication
@@ -10,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import java.time.Clock
 
 @SpringBootApplication
-@EntityScan(basePackageClasses = [EventEntity::class])
-@EnableJpaRepositories(basePackageClasses = [EventRepository::class])
+@EntityScan(basePackageClasses = [EventEntity::class, ProgramSessionEntity::class])
+@EnableJpaRepositories(basePackageClasses = [EventRepository::class, ProgramSessionRepository::class])
 class DemoApplication {
     @Bean
     fun clock(): Clock = Clock.systemUTC()

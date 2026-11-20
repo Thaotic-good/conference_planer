@@ -25,31 +25,40 @@
 
 ## Learning continuity and documentation
 
-- `docs/PROJECT_CONTEXT.md` owns verified application behavior, architectural
-  decisions, limitations, and validation status. Check its claims against code.
-- `docs/LEARNING_ROADMAP.md` owns the proposed feature-to-concept progression
-  and session workflow. Read it when choosing or changing an exercise.
-- `docs/LEARNING_LOG.md` owns the single active exercise, learner reflections,
-  assessments, unresolved misconceptions, and the exact next action. Do not
-  duplicate current progress in the other documents.
-- At session start, reconcile the active exercise with code. At meaningful
-  exercise boundaries and session end, update factual progress and the next
-  action. Record pending reflection or assessment explicitly.
-- Give each milestone one primary concept and a manageable learner exercise.
-  Track implementation and understanding separately; passing tests alone does
-  not establish understanding.
+- `docs/PROJECT_CONTEXT.md` owns lasting application facts, architecture, and
+  limitations. Update it only when those facts change; verify against code.
+- `docs/LEARNING_ROADMAP.md` owns the proposed progression and teaching workflow.
+  Read it when choosing or changing a learning topic.
+- `docs/LEARNING_LOG.md` records learning conversations, not agent activity.
+  Keep one active exercise: topic, short goal, and one pending question. Add a
+  brief misconception only when revealed by the learner's answer.
+- Do not log every milestone or session. Update the log only when the learning
+  topic changes, the learner supplies a reflection, or discussion reveals or
+  resolves a misconception. Session-end updates are optional.
+- Keep implementation status, test results, validation checklists, operational
+  next steps, and agent work summaries out of the learning log. Report relevant
+  implementation and validation results in the ordinary task handoff.
+- During a learning exercise, explain the concept and ask one concrete question
+  in chat, using a short code snippet, a failure scenario, or the produced code.
+  Writing a pending question in a file does not count as asking the learner.
+  Wait for their answer before assessing it; do not supply the answer alongside
+  the question. Follow with another concept only after discussing the first.
+- An implementation request still authorizes implementation. When it introduces
+  the active learning concept, include a focused understanding question in the
+  handoff. Routine fixes and documentation edits need no artificial quiz.
 - First-person learning claims must come from the learner. Codex may transcribe
-  or clarify their explanation without strengthening it, but must not invent
-  reflections. Use "Learner reflection pending" when none was supplied.
-- Attribute Codex assessments separately and cite the learner's explanation or
-  application as their basis. Do not infer mastery from existing code.
-- When a misconception appears, identify the mistaken assumption, explain it
-  with current code or a counterexample, then let the learner apply the idea to
-  a small variation. Keep the core concept developing until demonstrated;
+  conversational reflections without strengthening them. Do not create empty
+  reflection records or "understanding unassessed" entries for agent work.
+- Add dated learning records only after learner participation supplies something
+  meaningful to record. Keep any Codex assessment separate and brief, grounded
+  in the learner's reasoning. Existing code and passing tests do not prove
+  understanding.
+- Correct a misconception by naming the mistaken assumption, explaining it with
+  code or a counterexample, and asking the learner to apply the correction to a
+  small variation. Do not mark the core concept understood until demonstrated;
   repeating Codex's wording alone is insufficient.
-- If the learner stops or changes focus, preserve the unresolved concept and
-  next step without marking understanding demonstrated. Avoid quizzing on
-  incidental details or blocking explicitly authorized implementation.
+- Respect a pause or change of focus. Preserve a useful pending learning question
+  without forcing continued questioning or blocking authorized implementation.
 
 ## Architecture conventions
 

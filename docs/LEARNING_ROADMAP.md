@@ -45,8 +45,8 @@ the relevant code. Agree on observable behavior, the primary concept, a small
 learner task, and how the result will be checked.
 
 If documentation and code disagree, correct factual documentation. Do not infer
-learner understanding from existing code. Keep the active exercise and exact
-next action only in LEARNING_LOG.md.
+learner understanding from existing code. Keep the active topic, short goal, and one pending
+learning question only in LEARNING_LOG.md.
 
 ### 2. Let the learner attempt it
 
@@ -56,12 +56,17 @@ reason or implement. Prefer a focused hint before a complete solution.
 An explicit implementation request authorizes Codex to implement, but does not
 establish learner understanding.
 
-### 3. Review behavior and reasoning
+### 3. Ask and review in chat
 
-Review whether the implementation behaves correctly and whether the learner's
-explanation matches the concept. Identify what is correct, what is mistaken,
-and why. Separate conceptual misunderstandings from syntax mistakes and
-framework details.
+Ask one concrete understanding question in chat, grounded in a short code
+snippet, a failure scenario, or the produced code. Do not merely write the
+question into the learning log. Do not give its answer before the learner has
+attempted it. When an implementation introduces the active concept, include the
+question in the handoff; routine fixes and documentation edits need no quiz.
+
+Wait for the learner's answer. Identify what is correct, what is mistaken, and
+why. Separate conceptual misunderstandings from syntax and framework details.
+Discuss one concept before moving to another.
 
 ### 4. Resolve misunderstandings
 
@@ -71,49 +76,46 @@ When an explanation reveals a misconception:
 3. Ask the learner to apply the corrected idea to a small variation.
 4. Reassess the explanation.
 
-Keep the unresolved concept active until the learner demonstrates the core
-idea. Repeating Codex's wording alone is insufficient evidence. Avoid turning
-every detail into a quiz; check the concept central to the exercise.
+The core concept remains unresolved until the learner demonstrates it. Repeating
+Codex's wording alone is insufficient. Avoid quizzing on incidental details.
+If the learner pauses or changes focus, preserve a useful pending question
+without forcing continued questioning.
 
-If the learner stops or changes focus, preserve the unresolved concept and next
-step. Do not mark understanding demonstrated or force continued questioning.
+### 5. Record learning only when useful
 
-### 5. Verify and record
+The learning log records learning conversations, not implementation progress.
+Update it only when the topic changes, the learner supplies a reflection, or
+discussion reveals or resolves a misconception. Do not record every milestone.
+End-of-session updates are optional.
 
-Run checks appropriate to the change. Record implementation progress separately
-from understanding. At meaningful exercise boundaries and session end, update
-factual progress and the exact next action, even if reflection is pending.
+Keep the active exercise brief: topic, short goal, and one pending question.
+If needed, add one sentence identifying a misconception shown by the learner's
+answer. Exclude implementation status, test results, validation checklists,
+operational next steps, and agent work summaries.
 
-Ask the learner to supply:
-- What I can now explain or do.
-- Evidence.
-- What remains unclear.
-
-Codex may transcribe a conversational reflection or help clarify its wording,
-but must not invent first-person claims or strengthen what was demonstrated.
-Use "Learner reflection pending" when none was supplied. Attribute Codex's
-assessment separately, with its basis and any remaining correction.
+Add a dated record only after learner participation provides meaningful content.
+The learner's conversational explanation can supply the reflection; do not
+require a form after every exchange. Preserve their meaning and do not invent
+first-person claims. Do not create empty reflection or unassessed records.
+A separate Codex assessment is optional and should be brief, adding a useful
+correction or evidence rather than repeating the reflection.
 
 ## Completion criteria
 
-Track two separate outcomes:
-- Implementation: planned, in progress, or verified.
-- Understanding: not assessed, developing, or demonstrated.
+Verify application behavior with appropriate checks and report the results in
+the task handoff. Passing tests establish neither learning nor understanding.
 
-Distinguish observed code from verified behavior: cite checks actually run and
-label historical validation reports. Tests alone do not prove understanding.
-
-An exercise is complete when the agreed behavior is verified and the learner
-has demonstrated its primary concept through explanation or application to a
-small variation. Understanding can be reassessed later; one explanation does
-not establish permanent mastery.
+Consider a learning exercise complete when the learner explains or applies its
+core concept and any central misconception has been addressed. Implementation
+completion alone does not complete the lesson. Do not turn these distinctions
+into status fields in the learning log. Understanding can be revisited later.
 
 ## Documentation ownership
 
 - AGENTS.md: mandatory collaboration and documentation rules.
-- PROJECT_CONTEXT.md: application facts, architecture, limitations, validation.
+- PROJECT_CONTEXT.md: lasting application facts, architecture, limitations.
 - LEARNING_ROADMAP.md: proposed progression and session workflow.
-- LEARNING_LOG.md: active exercise, learner reflections, assessments, next action.
+- LEARNING_LOG.md: brief active topic/question and substantive learning records.
 
 Update context when implementation changes its facts, the roadmap when learning
 priorities change, and AGENTS.md when collaboration rules change. Avoid copying

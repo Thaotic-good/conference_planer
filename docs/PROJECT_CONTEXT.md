@@ -64,25 +64,29 @@ country/time-zone pairs, nonexistent or ambiguous local times at daylight-saving
 transitions, and end times that are not after start times. The V1 migration
 creates the event table and its constraints.
 
+Program sessions can be persisted with an owning many-to-one relationship to
+an event. Required equipment is stored as equipment-type-to-quantity entries.
+The V2 migration owns the session schema, foreign key, enum checks, scheduling
+range checks, and positive capacity and equipment-quantity constraints. Room
+assignment and track categorization are intentionally deferred to later slices.
+
 `GET /events` currently returns event names. `GET /events/{id}` returns an
 `EventDto` without an ID, while creation returns an `EventResponse` including
 an ID. `EventDomain.toDto()` imports the API DTO; another response mapping lives
-in the controller. Event service, entity, and repository tests exist; a dedicated
-event controller test is not currently present.
+in the controller. Event service, entity, and repository tests exist. An event
+creation integration test exercises `POST /events` through the real Spring
+context and verifies the resulting row in a Testcontainers PostgreSQL database;
+a focused event controller test is not currently present.
 
 Early entities and repository definitions also exist for events, people,
 program sessions, rooms, staffing, and tasks. Several corresponding controller
 and service files are placeholders. Treat these as work in progress, not as an
 architecture that must be copied unchanged.
 
-Earlier project notes report a passing `./gradlew test` run; the suite was not
-rerun during the documentation reconciliation on 2026-10-28. The early non-event entities have not yet
-been verified as one application-wide JPA model; keep each new vertical slice
-narrow and address its mappings when its use case requires them.
-
 ## Learning workflow
 
-The active exercise and its next action live in [LEARNING_LOG.md](LEARNING_LOG.md).
+The active learning topic and pending question live in
+[LEARNING_LOG.md](LEARNING_LOG.md).
 The proposed progression and teaching workflow live in
 [LEARNING_ROADMAP.md](LEARNING_ROADMAP.md). This file records application facts,
 not learner understanding or current exercise progress.
