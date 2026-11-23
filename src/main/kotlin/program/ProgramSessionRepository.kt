@@ -80,7 +80,32 @@ class ProgramSessionEntity(
 
     @Column(name = "created_at", updatable = false, nullable = false)
     var createdAt: Instant,
-)
+
+    // todo: assign shifts to program session
+    // todo: assign session participant to program session
+    // todo: RoomEntity gets a ProgramSession assigned
+) {
+    fun toDomain() : ProgramSessionDomain {
+        return ProgramSessionDomain(
+            id = requireNotNull(id) {
+                "A persisted program session must have an ID"
+            },
+            requiredEquipment = requiredEquipment,
+            sessionFormat = sessionFormat,
+            title = title,
+            description = description,
+            minimalRequiredCapacity = minimalRequiredCapacity,
+            event = event,
+            startsAt = startsAt,
+            endsAt = endsAt,
+            setupMinutes = setupMinutes,
+            teardownMinutes = teardownMinutes,
+            status = status,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+    }
+}
 
 enum class SessionFormat {
     PANEL_DISCUSSION,
